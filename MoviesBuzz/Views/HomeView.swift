@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject private var viewModel = PopularMoviesViewModel()
+
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Movies")
-                .font(.system(size: 50, weight: .bold))
-            List {
-                
+        NavigationView {
+            List(viewModel.popularMovies) { movie in
+                NavigationLink {
+                    MovieDetailView(
+                        movie: movie,
+                        posterURL: URL(string: "\(APIConstants.imageHostUrl)\(movie.posterPath ?? "")")
+                    )
+                } label: {
+                    MovieView(
+                        posterURL: URL(string: "\(APIConstants.imageHostUrl)\(movie.posterPath ?? "")"),
+                        movie: movie
+                    )
+                }
             }
-        }.padding(.horizontal)
+            .navigationTitle("Popular Movies")
+        }
+        .task {
+            await viewModel.fetchMovies()
+        }
     }
 }
 

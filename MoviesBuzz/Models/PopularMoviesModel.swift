@@ -14,7 +14,7 @@ import Foundation
    - Popular: https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}
  */
 
-struct Movie: Codable {
+struct Movie: Identifiable, Codable {
     let id: Int
     let originalTitle: String?
     let posterPath: String?
