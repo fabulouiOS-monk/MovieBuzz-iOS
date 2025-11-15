@@ -31,4 +31,17 @@ class PopularMoviesViewModel: ObservableObject {
             favouriteMovies = popularMovies.filter { favourite.isFavorite(movieId: $0.id) }
         }
     }
+
+    func searchMovies(query: String) async {
+        guard query.isEmpty == false else {
+            await fetchMovies()
+            return
+        }
+        do {
+            let searchedMovies = try await MoviesService.shared.searchMovies(query: query)
+            popularMovies = searchedMovies
+        } catch {
+            print("Search failed: \(error.localizedDescription)")
+        }
+    }
 }

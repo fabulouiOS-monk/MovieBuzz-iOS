@@ -21,7 +21,9 @@ class MovieDetailsViewModel: ObservableObject {
         do {
             let details = try await MoviesService.shared.fetchMovieDetails(movieId: movieID)
             movieDetails = details
-            trailerKey = details?.videos?.results.first(where: { $0.site == "YouTube" && $0.type == "Trailer" })?.key
+            trailerKey = details?.videos?.results.first(where: {
+                $0.type == "Official Trailer" && $0.type == "Official Teaser"
+            })?.key
         } catch {
             print("Error:", error)
         }

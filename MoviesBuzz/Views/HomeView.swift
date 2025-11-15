@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: PopularMoviesViewModel
     @EnvironmentObject var favouritesManager: FavoritesManager
+    @State private var searchQuery: String = ""
 
     var body: some View {
         NavigationStack {
@@ -23,6 +24,10 @@ struct HomeView: View {
                 .buttonStyle(.plain)
             }
             .navigationTitle("Popular Movies")
+            .searchable(text: $searchQuery, prompt: "Search movies")
+            .onChange(of: searchQuery) { query in
+                Task { await viewModel.searchMovies(query: query) }
+            }
         }
         .task {
             await viewModel.fetchMovies()
