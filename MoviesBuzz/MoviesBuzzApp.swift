@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct MoviesBuzzApp: App {
+    @StateObject var favouritesManager = FavoritesManager()
+    @StateObject var popularMoviesViewModel = PopularMoviesViewModel()
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            TabView {
+                HomeView(viewModel: popularMoviesViewModel)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+                
+                FavouriteMoviesView(viewModel: popularMoviesViewModel)
+                    .tabItem {
+                        Label("Favorites", systemImage: "heart.fill")
+                    }
+            }
+            .environmentObject(favouritesManager)
         }
     }
 }

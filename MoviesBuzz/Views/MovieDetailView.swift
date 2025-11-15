@@ -10,7 +10,7 @@ import WebKit
 
 struct MovieDetailView: View {
     let movie: Movie
-    @ObservedObject var favouriteManager: FavoritesManager
+    @EnvironmentObject var favouriteManager: FavoritesManager
     @StateObject private var viewModel = MovieDetailsViewModel()
 
     var body: some View {

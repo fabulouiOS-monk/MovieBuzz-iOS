@@ -10,7 +10,7 @@ import SwiftUI
 struct MovieView: View {
     let posterURL: URL?
     let movie: Movie
-    @ObservedObject var favouriteManager: FavoritesManager
+    @EnvironmentObject var favouriteManager: FavoritesManager
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -74,6 +74,6 @@ struct MovieView: View {
     }
 }
 
-#Preview {
-    MovieView()
-}
+//#Preview {
+//    MovieView()
+//}

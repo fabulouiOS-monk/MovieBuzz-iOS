@@ -12,7 +12,7 @@ class MovieDetailsViewModel: ObservableObject {
     @Published var movieDetails: MovieDetails?
     @Published var isLoading: Bool = false
     @Published var trailerKey: String? = nil
-    
+
     init(movieDetails: MovieDetails? = nil) {
         self.movieDetails = movieDetails
     }

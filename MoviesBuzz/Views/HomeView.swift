@@ -8,19 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = PopularMoviesViewModel()
-    @StateObject private var favouritesManager = FavoritesManager()
+    @ObservedObject var viewModel: PopularMoviesViewModel
+    @EnvironmentObject var favouritesManager: FavoritesManager
 
     var body: some View {
         NavigationStack {
             List(viewModel.popularMovies) { movie in
-                NavigationLink(destination: MovieDetailView(movie: movie,
-                                                            favouriteManager: favouritesManager)) {
+                NavigationLink(destination: MovieDetailView(movie: movie)) {
                     MovieView(
                         posterURL: URL(string: "\(APIConstants.imageHostUrl)\(movie.posterPath ?? "")"),
-                        movie: movie,
-                        favouriteManager: favouritesManager
-                    )
+                        movie: movie)
                 }
                 .listStyle(.plain)
                 .buttonStyle(.plain)
@@ -33,6 +30,6 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-}
+//#Preview {
+//    HomeView()
+//}

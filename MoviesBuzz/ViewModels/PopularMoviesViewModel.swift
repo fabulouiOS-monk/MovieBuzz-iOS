@@ -10,21 +10,25 @@ import Combine
 
 class PopularMoviesViewModel: ObservableObject {
     @Published var popularMovies: [Movie]
-    @Published var isLoading: Bool = false
+    @Published var favouriteMovies: [Movie] = []
     
     init(popularMovies: [Movie] = []) {
         self.popularMovies = popularMovies
     }
 
     func fetchMovies() async {
-        isLoading = true
-        defer { isLoading = false }
-
         do {
             let movies = try await MoviesService.shared.fetchPopularMovies()
             popularMovies = movies
         } catch {
             print("Error:", error)
+        }
+    }
+
+    func filterFavouriteMovies(favourite: FavoritesManager) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            favouriteMovies = popularMovies.filter { favourite.isFavorite(movieId: $0.id) }
         }
     }
 }
