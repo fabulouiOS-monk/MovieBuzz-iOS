@@ -9,21 +9,21 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = PopularMoviesViewModel()
+    @StateObject private var favouritesManager = FavoritesManager()
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(viewModel.popularMovies) { movie in
-                NavigationLink {
-                    MovieDetailView(
-                        movie: movie,
-                        posterURL: URL(string: "\(APIConstants.imageHostUrl)\(movie.posterPath ?? "")")
-                    )
-                } label: {
+                NavigationLink(destination: MovieDetailView(movie: movie,
+                                                            favouriteManager: favouritesManager)) {
                     MovieView(
                         posterURL: URL(string: "\(APIConstants.imageHostUrl)\(movie.posterPath ?? "")"),
-                        movie: movie
+                        movie: movie,
+                        favouriteManager: favouritesManager
                     )
                 }
+                .listStyle(.plain)
+                .buttonStyle(.plain)
             }
             .navigationTitle("Popular Movies")
         }

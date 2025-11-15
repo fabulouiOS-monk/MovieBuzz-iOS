@@ -9,7 +9,7 @@ import Foundation
 
 enum APIConstants {
     #warning("Don't push API key")
-    static let apiKey = "*****"
+    static let apiKey = "****"
     static let hostUrl = "https://api.themoviedb.org/3/movie/"
     static let imageHostUrl = "https://image.tmdb.org/t/p/w500"
 }
