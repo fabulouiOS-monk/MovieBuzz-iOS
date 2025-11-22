@@ -9,7 +9,7 @@ import Foundation
 
 enum APIConstants {
     #warning("Don't push API key")
-    static let apiKey = "****"
+    static let apiKey = "XXXX"
     static let hostUrl = "https://api.themoviedb.org/3/"
     static let imageHostUrl = "https://image.tmdb.org/t/p/w500"
 }
@@ -22,6 +22,7 @@ class MoviesService {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        let movie: Movie = try await fetch(url: url)
 
         let (data, response) = try await URLSession.shared.data(for: request)
 
@@ -76,4 +77,19 @@ class MoviesService {
         print("SEARCHED MOVIES: \(moviesList)")
         return moviesList.results
     }
+//
+//    func fetch<T: Codable>(url: URL) async throws -> T {
+//        let (data, response) = try await URLSession.shared.data(from: url)
+//        guard let http = response as? HTTPURLResponse else {
+//            throw URLError(.badServerResponse)
+//        }
+//
+//        guard (200..<300).contains(http.statusCode) else {
+//            throw NSError(domain: "HTTPError", code: http.statusCode)
+//        }
+//
+//        let moviesList = try JSONDecoder().decode(T.self, from: data)
+//        print("[MOVIES LIST]: \(moviesList)")
+//        return moviesList
+//    }
 }

@@ -11,9 +11,21 @@ import Combine
 class PopularMoviesViewModel: ObservableObject {
     @Published var popularMovies: [Movie]
     @Published var favouriteMovies: [Movie] = []
+    @Published var someError: String = ""
+    @Published var searchText = ""
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init(popularMovies: [Movie] = []) {
         self.popularMovies = popularMovies
+        $searchText
+            .debounce(for: .milliseconds(350), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] query in
+                Task {
+                    await self?.searchMovies(query: query)
+                }
+            }.store(in: &cancellables)
     }
 
     func fetchMovies() async {
@@ -21,6 +33,7 @@ class PopularMoviesViewModel: ObservableObject {
             let movies = try await MoviesService.shared.fetchPopularMovies()
             popularMovies = movies
         } catch {
+            someError = "Facing network error"
             print("Error:", error)
         }
     }
